@@ -36,8 +36,8 @@ async function withTodosWriteLock<T>(operation: () => Promise<T>): Promise<T> {
   })
 
   const previousQueue = todosWriteQueue
-  todosWriteQueue = previousQueue.then(() => nextInQueue)
-  await previousQueue
+  todosWriteQueue = previousQueue.catch(() => undefined).then(() => nextInQueue)
+  await previousQueue.catch(() => undefined)
 
   try {
     return await operation()
