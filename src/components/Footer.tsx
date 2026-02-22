@@ -38,7 +38,9 @@ const SpotifyIcon = () => (
   </svg>
 )
 
-export default function Footer() {
+interface FooterProps {}
+
+export function Footer(_props: FooterProps) {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [

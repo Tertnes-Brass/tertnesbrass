@@ -29,11 +29,15 @@ const fallbackTodos: Todo[] = [
 ]
 
 async function readTodos(): Promise<Todo[]> {
-  return JSON.parse(
-    await fs.promises.readFile(TODOS_FILE, 'utf-8').catch(() =>
+  try {
+    const rawTodos = await fs.promises.readFile(TODOS_FILE, 'utf-8').catch(() =>
       JSON.stringify(fallbackTodos, null, 2),
-    ),
-  ) as Todo[]
+    )
+
+    return JSON.parse(rawTodos) as Todo[]
+  } catch {
+    return fallbackTodos
+  }
 }
 
 const getTodos = createServerFn({
