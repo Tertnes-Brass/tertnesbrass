@@ -18,24 +18,27 @@ const loggedServerFunction = createServerFn({ method: "GET" }).middleware([
 
 const TODOS_FILE = 'todos.json'
 
-async function readTodos() {
+interface Todo {
+  id: number
+  name: string
+}
+
+const fallbackTodos: Todo[] = [
+  { id: 1, name: 'Get groceries' },
+  { id: 2, name: 'Buy a new phone' },
+]
+
+async function readTodos(): Promise<Todo[]> {
   return JSON.parse(
     await fs.promises.readFile(TODOS_FILE, 'utf-8').catch(() =>
-      JSON.stringify(
-        [
-          { id: 1, name: 'Get groceries' },
-          { id: 2, name: 'Buy a new phone' },
-        ],
-        null,
-        2,
-      ),
+      JSON.stringify(fallbackTodos, null, 2),
     ),
-  )
+  ) as Todo[]
 }
 
 const getTodos = createServerFn({
   method: 'GET',
-}).handler(async () => await readTodos())
+}).handler(async (): Promise<Todo[]> => await readTodos())
 
 const addTodo = createServerFn({ method: 'POST' })
   .inputValidator((d: string) => d)
@@ -53,21 +56,21 @@ export const Route = createFileRoute('/demo/start/server-funcs')({
 
 function Home() {
   const router = useRouter()
-  let todos = Route.useLoaderData()
+  const todos = Route.useLoaderData() as Todo[]
 
   const [todo, setTodo] = useState('')
 
   const submitTodo = useCallback(async () => {
-    todos = await addTodo({ data: todo })
+    await addTodo({ data: todo })
     setTodo('')
-    router.invalidate()
-  }, [addTodo, todo])
+    await router.invalidate()
+  }, [router, todo])
 
   return (
     <div>
       <h1>Start Server Functions - Todo Example</h1>
       <ul>
-        {todos?.map((t) => (
+        {todos.map((t) => (
           <li key={t.id}>{t.name}</li>
         ))}
       </ul>
