@@ -4,18 +4,6 @@ import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import './start.css'
 
-/*
-const loggingMiddleware = createMiddleware().server(
-  async ({ next, request }) => {
-    console.log("Request:", request.url);
-    return next();
-  }
-);
-const loggedServerFunction = createServerFn({ method: "GET" }).middleware([
-  loggingMiddleware,
-]);
-*/
-
 const TODOS_FILE = 'todos.json'
 
 interface Todo {
@@ -45,10 +33,22 @@ const getTodos = createServerFn({
 }).handler(async (): Promise<Todo[]> => await readTodos())
 
 const addTodo = createServerFn({ method: 'POST' })
-  .inputValidator((d: string) => d)
+  .inputValidator((input: unknown) => {
+    if (typeof input !== 'string') {
+      throw new Error('Todo name must be a string')
+    }
+
+    const trimmed = input.trim()
+    if (!trimmed) {
+      throw new Error('Todo name cannot be empty')
+    }
+
+    return trimmed
+  })
   .handler(async ({ data }) => {
     const todos = await readTodos()
-    todos.push({ id: todos.length + 1, name: data })
+    const nextId = Math.max(...todos.map((todo) => todo.id), 0) + 1
+    todos.push({ id: nextId, name: data })
     await fs.promises.writeFile(TODOS_FILE, JSON.stringify(todos, null, 2))
     return todos
   })
@@ -78,9 +78,10 @@ function Home() {
           <li key={t.id}>{t.name}</li>
         ))}
       </ul>
-      <div className="flex flex-col gap-2">
+      <div className="todo-form">
         <input
           type="text"
+          aria-label="Ny oppgave"
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
           onKeyDown={(e) => {

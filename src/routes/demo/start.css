@@ -41,3 +41,9 @@
 .api-page .content li span {
   font-size: var(--demo-api-item-font-size);
 }
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
