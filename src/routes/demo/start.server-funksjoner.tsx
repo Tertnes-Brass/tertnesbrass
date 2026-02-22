@@ -73,12 +73,12 @@ const addTodo = createServerFn({ method: 'POST' })
     })
   })
 
-export const Route = createFileRoute('/demo/start/server-funcs')({
+export const Route = createFileRoute('/demo/start/server-funksjoner')({
   component: Home,
   loader: async () => await getTodos(),
 })
 
-function Home() {
+export function Home() {
   const router = useRouter()
   const todos = Route.useLoaderData() as Todo[]
 
@@ -96,8 +96,8 @@ function Home() {
   }, [router, todo])
 
   return (
-    <div>
-      <h1>Start Server Functions - Todo Example</h1>
+    <main aria-label="Start serverfunksjoner oppgaveliste">
+      <h1>Start serverfunksjoner - oppgaveeksempel</h1>
       <ul>
         {todos.map((t) => (
           <li key={t.id}>{t.name}</li>
@@ -114,12 +114,12 @@ function Home() {
               submitTodo()
             }
           }}
-          placeholder="Enter a new todo..."
+          placeholder="Skriv inn en ny oppgave..."
         />
         <button disabled={todo.trim().length === 0} onClick={submitTodo}>
-          Add todo
+          Legg til oppgave
         </button>
       </div>
-    </div>
+    </main>
   )
 }
