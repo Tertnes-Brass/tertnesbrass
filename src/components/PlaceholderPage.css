@@ -1,0 +1,36 @@
+.placeholder-page {
+  background-color: var(--bg);
+}
+
+.placeholder-page-container {
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-sm);
+}
+
+.placeholder-page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--burgundy);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.placeholder-page-description {
+  color: var(--text-soft);
+  font-size: 1rem;
+  margin: 0;
+}
+
+@media (min-width: 769px) {
+  .placeholder-page-container {
+    max-width: 1200px;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+
+  .placeholder-page-title {
+    font-size: 2.5rem;
+  }
+
+  .placeholder-page-description {
+    font-size: 1.1rem;
+  }
+}

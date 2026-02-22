@@ -3,7 +3,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import Header from '../components/Header'
-import Footer from '../components/Footer'
+import { Footer } from '../components/Footer'
 import { ThemeProvider } from '../contexts/ThemeContext'
 
 import appCss from '../styles.css?url'

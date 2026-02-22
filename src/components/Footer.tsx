@@ -38,7 +38,11 @@ const SpotifyIcon = () => (
   </svg>
 )
 
-export default function Footer() {
+interface FooterProps {}
+
+export function Footer(_props: FooterProps) {
+  const currentYear = new Date().getFullYear()
+
   const socialLinks = [
     { href: 'https://facebook.com/tertnesbr', icon: <FacebookIcon />, label: 'Facebook' },
     { href: 'https://instagram.com/tertnesbrass', icon: <InstagramIcon />, label: 'Instagram' },
@@ -102,7 +106,7 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © 2025 Tertnes Brass. Laget med ❤️ i Bergen.
+            © {currentYear} Tertnes Brass. Laget med ❤️ i Bergen.
           </p>
           <div className="footer-social">
             {socialLinks.map((social) => (

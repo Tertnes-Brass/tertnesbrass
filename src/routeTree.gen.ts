@@ -18,7 +18,7 @@ import { Route as MedlemmerRouteImport } from './routes/medlemmer'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as BliMedlemRouteImport } from './routes/bli-medlem'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
+import { Route as DemoStartServerFunksjonerRouteImport } from './routes/demo/start.server-funksjoner'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
 import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
@@ -71,11 +71,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
-  id: '/demo/start/server-funcs',
-  path: '/demo/start/server-funcs',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const DemoStartServerFunksjonerRoute =
+  DemoStartServerFunksjonerRouteImport.update({
+    id: '/demo/start/server-funksjoner',
+    path: '/demo/start/server-funksjoner',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DemoStartApiRequestRoute = DemoStartApiRequestRouteImport.update({
   id: '/demo/start/api-request',
   path: '/demo/start/api-request',
@@ -119,7 +120,7 @@ export interface FileRoutesByFullPath {
   '/styret': typeof StyretRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
+  '/demo/start/server-funksjoner': typeof DemoStartServerFunksjonerRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
@@ -137,7 +138,7 @@ export interface FileRoutesByTo {
   '/styret': typeof StyretRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
+  '/demo/start/server-funksjoner': typeof DemoStartServerFunksjonerRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
@@ -156,7 +157,7 @@ export interface FileRoutesById {
   '/styret': typeof StyretRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
+  '/demo/start/server-funksjoner': typeof DemoStartServerFunksjonerRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
@@ -176,7 +177,7 @@ export interface FileRouteTypes {
     | '/styret'
     | '/demo/api/names'
     | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
+    | '/demo/start/server-funksjoner'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
@@ -194,7 +195,7 @@ export interface FileRouteTypes {
     | '/styret'
     | '/demo/api/names'
     | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
+    | '/demo/start/server-funksjoner'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
@@ -212,7 +213,7 @@ export interface FileRouteTypes {
     | '/styret'
     | '/demo/api/names'
     | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
+    | '/demo/start/server-funksjoner'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
@@ -231,7 +232,7 @@ export interface RootRouteChildren {
   StyretRoute: typeof StyretRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
-  DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
+  DemoStartServerFunksjonerRoute: typeof DemoStartServerFunksjonerRoute
   DemoStartSsrDataOnlyRoute: typeof DemoStartSsrDataOnlyRoute
   DemoStartSsrFullSsrRoute: typeof DemoStartSsrFullSsrRoute
   DemoStartSsrSpaModeRoute: typeof DemoStartSsrSpaModeRoute
@@ -303,11 +304,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/start/server-funcs': {
-      id: '/demo/start/server-funcs'
-      path: '/demo/start/server-funcs'
-      fullPath: '/demo/start/server-funcs'
-      preLoaderRoute: typeof DemoStartServerFuncsRouteImport
+    '/demo/start/server-funksjoner': {
+      id: '/demo/start/server-funksjoner'
+      path: '/demo/start/server-funksjoner'
+      fullPath: '/demo/start/server-funksjoner'
+      preLoaderRoute: typeof DemoStartServerFunksjonerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/start/api-request': {
@@ -367,7 +368,7 @@ const rootRouteChildren: RootRouteChildren = {
   StyretRoute: StyretRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
-  DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
+  DemoStartServerFunksjonerRoute: DemoStartServerFunksjonerRoute,
   DemoStartSsrDataOnlyRoute: DemoStartSsrDataOnlyRoute,
   DemoStartSsrFullSsrRoute: DemoStartSsrFullSsrRoute,
   DemoStartSsrSpaModeRoute: DemoStartSsrSpaModeRoute,
