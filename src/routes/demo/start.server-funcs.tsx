@@ -5,6 +5,7 @@ import { createServerFn } from '@tanstack/react-start'
 import './start.css'
 
 const TODOS_FILE = 'todos.json'
+let todosWriteQueue: Promise<void> = Promise.resolve()
 
 interface Todo {
   id: number
@@ -12,8 +13,8 @@ interface Todo {
 }
 
 const fallbackTodos: Todo[] = [
-  { id: 1, name: 'Get groceries' },
-  { id: 2, name: 'Buy a new phone' },
+  { id: 1, name: 'Handle dagligvarer' },
+  { id: 2, name: 'Kjøp en ny telefon' },
 ]
 
 async function readTodos(): Promise<Todo[]> {
@@ -28,6 +29,23 @@ async function readTodos(): Promise<Todo[]> {
   }
 }
 
+async function withTodosWriteLock<T>(operation: () => Promise<T>): Promise<T> {
+  let releaseLock = () => {}
+  const nextInQueue = new Promise<void>((resolve) => {
+    releaseLock = resolve
+  })
+
+  const previousQueue = todosWriteQueue
+  todosWriteQueue = previousQueue.then(() => nextInQueue)
+  await previousQueue
+
+  try {
+    return await operation()
+  } finally {
+    releaseLock()
+  }
+}
+
 const getTodos = createServerFn({
   method: 'GET',
 }).handler(async (): Promise<Todo[]> => await readTodos())
@@ -35,22 +53,24 @@ const getTodos = createServerFn({
 const addTodo = createServerFn({ method: 'POST' })
   .inputValidator((input: unknown) => {
     if (typeof input !== 'string') {
-      throw new Error('Todo name must be a string')
+      throw new Error('Oppgavenavn må være tekst')
     }
 
     const trimmed = input.trim()
     if (!trimmed) {
-      throw new Error('Todo name cannot be empty')
+      throw new Error('Oppgavenavn kan ikke være tomt')
     }
 
     return trimmed
   })
   .handler(async ({ data }) => {
-    const todos = await readTodos()
-    const nextId = Math.max(...todos.map((todo) => todo.id), 0) + 1
-    todos.push({ id: nextId, name: data })
-    await fs.promises.writeFile(TODOS_FILE, JSON.stringify(todos, null, 2))
-    return todos
+    return withTodosWriteLock(async () => {
+      const todos = await readTodos()
+      const nextId = Math.max(...todos.map((todo) => todo.id), 0) + 1
+      todos.push({ id: nextId, name: data })
+      await fs.promises.writeFile(TODOS_FILE, JSON.stringify(todos, null, 2))
+      return todos
+    })
   })
 
 export const Route = createFileRoute('/demo/start/server-funcs')({
@@ -65,7 +85,12 @@ function Home() {
   const [todo, setTodo] = useState('')
 
   const submitTodo = useCallback(async () => {
-    await addTodo({ data: todo })
+    const trimmedTodo = todo.trim()
+    if (!trimmedTodo) {
+      return
+    }
+
+    await addTodo({ data: trimmedTodo })
     setTodo('')
     await router.invalidate()
   }, [router, todo])
