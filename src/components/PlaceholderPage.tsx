@@ -1,11 +1,17 @@
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 import './PlaceholderPage.css'
 
 interface PlaceholderPageProps {
   title: string
+  description?: string
+  children?: ReactNode
 }
 
-export function PlaceholderPage({ title }: PlaceholderPageProps) {
+export function PlaceholderPage({
+  title,
+  description = 'Innhold kommer snart...',
+  children,
+}: PlaceholderPageProps) {
   const headingId = useId()
 
   return (
@@ -14,7 +20,8 @@ export function PlaceholderPage({ title }: PlaceholderPageProps) {
         <h1 id={headingId} className="placeholder-page-title">
           {title}
         </h1>
-        <p className="placeholder-page-description">Innhold kommer snart...</p>
+        <p className="placeholder-page-description">{description}</p>
+        {children}
       </div>
     </main>
   )

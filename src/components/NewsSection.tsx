@@ -1,27 +1,14 @@
 import { Link } from '@tanstack/react-router'
+import { news } from '../content/content'
 import './NewsSection.css'
 
 export default function NewsSection() {
-  const smallNews = [
-    {
-      emoji: '🎵',
-      tag: 'REPERTOAR',
-      title: 'Nytt repertoar til våren',
-      description: 'Vi gleder oss til å presentere et spennende repertoar til konserter denne våren.',
-    },
-    {
-      emoji: '🏆',
-      tag: 'KONKURRANSE',
-      title: 'Vi deltar på NM Brass',
-      description: 'Korpset konkurrerer i Elitedivisjonen i NM Brass, hvor vi har spilt siden 2018.',
-    },
-    {
-      emoji: '🎊',
-      tag: 'SOSIALT',
-      title: 'Nyttårsbord under NM-oppkjøring',
-      description: 'Vi arrangerte nyttårsbord under første seminar-helg i NM-oppkjøringen 💃',
-    },
-  ]
+  const featuredNews = news.find((article) => article.featured) ?? news[0]
+  const smallNews = news.filter((article) => article.id !== featuredNews?.id).slice(0, 3)
+
+  if (!featuredNews) {
+    return null
+  }
 
   return (
     <section className="news-section">
@@ -36,13 +23,8 @@ export default function NewsSection() {
             <div className="featured-image">📸</div>
             <div className="featured-content">
               <span className="news-tag">KONSERT</span>
-              <h3 className="featured-title">
-                3.plass i Siddis Brass 2025
-              </h3>
-              <p className="featured-description">
-                Korpset presterte bra under Siddis Brass 2025 og ble belønnet med en 3.plass.
-                Takk til alle som kom og hørte på!
-              </p>
+              <h3 className="featured-title">{featuredNews.title}</h3>
+              <p className="featured-description">{featuredNews.summary}</p>
               <Link to="/nyheter" className="read-more-link">
                 Les mer →
               </Link>
@@ -50,13 +32,15 @@ export default function NewsSection() {
           </div>
 
           <div className="small-news">
-            {smallNews.map((news, index) => (
-              <div key={index} className="news-item">
-                <div className="news-icon">{news.emoji}</div>
+            {smallNews.map((article) => (
+              <div key={article.id} className="news-item">
+                <div className="news-icon" aria-hidden="true">
+                  {article.category === 'Konkurranse' ? '🏆' : article.category === 'Korpsliv' ? '🎊' : '🎵'}
+                </div>
                 <div className="news-item-content">
-                  <span className="news-tag">{news.tag}</span>
-                  <h4 className="news-item-title">{news.title}</h4>
-                  <p className="news-item-description">{news.description}</p>
+                  <span className="news-tag">{article.category.toUpperCase()}</span>
+                  <h4 className="news-item-title">{article.title}</h4>
+                  <p className="news-item-description">{article.summary}</p>
                 </div>
               </div>
             ))}

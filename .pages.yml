@@ -1,0 +1,294 @@
+media:
+  label: Bilder
+  input: public/images/uploads
+  output: /images/uploads
+  rename: safe
+  categories: [image]
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "innhold: opprett {path}"
+      update: "innhold: oppdater {path}"
+      delete: "innhold: slett {path}"
+      rename: "innhold: gi nytt navn til {oldPath}"
+
+content:
+  - name: redaksjonelt
+    label: Redaksjonelt innhold
+    type: group
+    items:
+      - name: konserter
+        label: Konserter
+        type: collection
+        path: src/content/concerts
+        format: json
+        filename:
+          template: "{id}.json"
+          field: create
+        view:
+          primary: title
+          fields: [title, date, status, published]
+          search: [title, venue]
+          sort: [date, title]
+          default:
+            sort: date
+            order: desc
+        fields:
+          - name: id
+            label: Kort ID
+            type: string
+            required: true
+            description: "Bruk små bokstaver, tall og bindestrek. Eksempel: sommerkonsert-2026."
+            pattern:
+              regex: "^[a-z0-9-]+$"
+              message: Bruk bare små bokstaver, tall og bindestrek.
+          - name: title
+            label: Konserttittel
+            type: string
+            required: true
+            options:
+              maxlength: 100
+          - name: date
+            label: Dato
+            type: date
+            required: true
+            options:
+              format: yyyy-MM-dd
+          - name: time
+            label: Klokkeslett
+            type: string
+            description: La feltet stå tomt hvis tidspunktet ikke er bestemt.
+            pattern:
+              regex: "^$|^([01]\\d|2[0-3]):[0-5]\\d$"
+              message: Bruk formatet TT:MM, for eksempel 18:00.
+          - name: venue
+            label: Sted
+            type: string
+            required: true
+          - name: address
+            label: Adresse
+            type: string
+            required: true
+          - name: description
+            label: Beskrivelse
+            type: text
+            required: true
+            options:
+              minlength: 40
+              maxlength: 600
+          - name: status
+            label: Status
+            type: select
+            required: true
+            options:
+              values:
+                - name: bekreftet
+                  label: Bekreftet og kommende
+                - name: avholdt
+                  label: Avholdt
+                - name: annonseres
+                  label: Annonseres senere
+                - name: utkast
+                  label: Utkast
+          - name: published
+            label: Publisert på nettsiden
+            type: boolean
+            required: true
+            description: Slå av for å lagre et utkast som ikke vises offentlig.
+          - name: image
+            label: Konsertbilde
+            type: image
+            description: Liggende format anbefales.
+            options:
+              path: concerts
+              extensions: [jpg, jpeg, png, webp]
+              rename: safe
+          - name: imageAlt
+            label: Bildetekst for skjermleser
+            type: string
+            options:
+              maxlength: 160
+          - name: ticketPrice
+            label: Billettpris
+            type: string
+            description: "Eksempel: 150 kr. La stå tomt ved gratis eller ukjent pris."
+          - name: childrenFree
+            label: Gratis for barn
+            type: boolean
+          - name: facebookEventUrl
+            label: Lenke til Facebook-arrangement
+            type: string
+            pattern:
+              regex: "^$|^https://.+$"
+              message: Lenken må starte med https://
+          - name: program
+            label: Program
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: kind
+                label: Type
+                type: select
+                required: true
+                options:
+                  values:
+                    - name: korps
+                      label: Korps
+                    - name: verk
+                      label: Verk
+              - name: label
+                label: Navn eller tittel
+                type: string
+                required: true
+              - name: credit
+                label: Dirigent eller komponist
+                type: string
+
+      - name: nyheter
+        label: Nyheter
+        type: collection
+        path: src/content/news
+        format: json
+        filename:
+          template: "{id}.json"
+          field: create
+        view:
+          primary: title
+          fields: [title, category, featured, published]
+          search: [title, category, summary]
+          sort: [sortOrder, title]
+          default:
+            sort: sortOrder
+            order: asc
+        fields:
+          - name: id
+            label: Kort ID
+            type: string
+            required: true
+            pattern:
+              regex: "^[a-z0-9-]+$"
+              message: Bruk bare små bokstaver, tall og bindestrek.
+          - name: title
+            label: Tittel
+            type: string
+            required: true
+            options:
+              maxlength: 120
+          - name: category
+            label: Kategori
+            type: select
+            required: true
+            options:
+              values: [Konkurranse, Konsert, Repertoar, Korpsliv]
+          - name: summary
+            label: Kort ingress
+            type: text
+            required: true
+            options:
+              minlength: 30
+              maxlength: 320
+          - name: image
+            label: Bilde
+            type: image
+            required: true
+            options:
+              path: news
+              extensions: [jpg, jpeg, png, webp]
+              rename: safe
+          - name: imageAlt
+            label: Bildetekst for skjermleser
+            type: string
+            required: true
+            options:
+              minlength: 10
+              maxlength: 160
+          - name: featured
+            label: Fremhevet på forsiden
+            type: boolean
+            required: true
+            description: Bare én nyhet bør være fremhevet om gangen.
+          - name: published
+            label: Publisert på nettsiden
+            type: boolean
+            required: true
+          - name: sortOrder
+            label: Rekkefølge
+            type: number
+            required: true
+            description: Laveste tall vises først.
+
+      - name: medlemmer
+        label: Medlemmer
+        type: collection
+        path: src/content/members
+        format: json
+        filename:
+          template: "{id}.json"
+          field: create
+        view:
+          primary: name
+          fields: [name, role, section, published]
+          search: [name, role, section]
+          sort: [sortOrder, name]
+          default:
+            sort: sortOrder
+            order: asc
+        fields:
+          - name: id
+            label: Kort ID
+            type: string
+            required: true
+            pattern:
+              regex: "^[a-z0-9-]+$"
+              message: Bruk bare små bokstaver, tall og bindestrek.
+          - name: name
+            label: Navn
+            type: string
+            required: true
+            options:
+              maxlength: 100
+          - name: role
+            label: Rolle eller instrument
+            type: string
+            required: true
+            options:
+              maxlength: 100
+          - name: section
+            label: Gruppe
+            type: string
+            required: true
+            description: "Eksempel: Kornetter, Horn eller Kunstnerisk ledelse."
+          - name: bio
+            label: Kort presentasjon
+            type: text
+            options:
+              maxlength: 320
+          - name: image
+            label: Portrett
+            type: image
+            description: Frivillig. Bruk et ryddig portrett i stående format.
+            options:
+              path: members
+              extensions: [jpg, jpeg, png, webp]
+              rename: safe
+          - name: imageAlt
+            label: Bildetekst for skjermleser
+            type: string
+            options:
+              maxlength: 160
+          - name: published
+            label: Publisert på nettsiden
+            type: boolean
+            required: true
+          - name: sortOrder
+            label: Rekkefølge
+            type: number
+            required: true
+            description: Laveste tall vises først.
