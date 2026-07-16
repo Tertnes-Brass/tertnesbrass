@@ -13,7 +13,6 @@ export interface ConcertProgram {
 
 export interface Concert {
   id: string
-  emoji: string
   title: string
   date: string
   time: string
@@ -45,7 +44,6 @@ export function toConcert(concert: ConcertContent): Concert {
 
   return {
     id: concert.id,
-    emoji: isPlaceholder ? '❓' : '🎵',
     title: concert.title,
     date: formatConcertDate(concert.date),
     time: concert.time || 'TBA',

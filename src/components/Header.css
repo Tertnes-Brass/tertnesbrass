@@ -100,6 +100,9 @@
 }
 
 .dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0.5rem 1rem;
   border-radius: 50px;
   background: transparent;
@@ -111,6 +114,16 @@
   transition: all 0.2s ease;
   font-family: inherit;
   white-space: nowrap;
+}
+
+.dropdown-chevron {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-chevron.open {
+  transform: rotate(180deg);
 }
 
 .dropdown-toggle:hover {
@@ -375,11 +388,15 @@
   justify-content: center;
   background: transparent;
   border: none;
-  font-size: 1.5rem;
   color: var(--text);
   cursor: pointer;
   border-radius: 50%;
   transition: background-color 0.2s ease;
+}
+
+.mobile-menu-close-icon {
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .mobile-menu-close:hover {

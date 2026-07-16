@@ -1,4 +1,16 @@
 import { useState } from 'react';
+import {
+  ArrowUpRight,
+  CakeSlice,
+  CalendarClock,
+  CalendarDays,
+  Clock3,
+  Coffee,
+  MapPin,
+  Minus,
+  Music2,
+  Plus,
+} from 'lucide-react';
 import type { Concert } from '../data/concerts';
 import './ProgramCard.css';
 
@@ -31,22 +43,41 @@ export function ProgramCard({ concert }: ProgramCardProps) {
               loading="lazy"
             />
           ) : (
-            <div className="program-card-emoji">{concert.emoji}</div>
+            <div className="program-card-icon" aria-hidden="true">
+              {isTBA ? (
+                <CalendarClock className="ui-icon" />
+              ) : (
+                <Music2 className="ui-icon" />
+              )}
+            </div>
           )}
 
           <div className="program-card-info">
             <h3 className="program-card-title">{concert.title}</h3>
             <div className="program-card-meta">
-              <span className="meta-item">📅 {concert.date}</span>
+              <span className="meta-item">
+                <CalendarDays className="ui-icon meta-item-icon" aria-hidden="true" />
+                {concert.date}
+              </span>
               {concert.time !== 'TBA' && (
-                <span className="meta-item">🕐 {concert.time}</span>
+                <span className="meta-item">
+                  <Clock3 className="ui-icon meta-item-icon" aria-hidden="true" />
+                  {concert.time}
+                </span>
               )}
-              <span className="meta-item">📍 {concert.venue}</span>
+              <span className="meta-item">
+                <MapPin className="ui-icon meta-item-icon" aria-hidden="true" />
+                {concert.venue}
+              </span>
             </div>
           </div>
 
           <div className="expand-icon" aria-hidden="true">
-            {isExpanded ? '−' : '+'}
+            {isExpanded ? (
+              <Minus className="ui-icon expand-control-icon" />
+            ) : (
+              <Plus className="ui-icon expand-control-icon" />
+            )}
           </div>
         </div>
       </button>
@@ -78,7 +109,9 @@ export function ProgramCard({ concert }: ProgramCardProps) {
                         key={index}
                         className={`program-item ${item.type === 'band' ? 'program-band' : 'program-piece'}`}
                       >
-                        {item.type === 'band' && <span className="band-icon">🎺</span>}
+                        {item.type === 'band' && (
+                          <Music2 className="ui-icon band-icon" aria-hidden="true" />
+                        )}
                         <div className="program-content">
                           <strong className="program-title">{item.title}</strong>
                           {item.composer && (
@@ -88,7 +121,13 @@ export function ProgramCard({ concert }: ProgramCardProps) {
                       </li>
                     ))}
                   </ul>
-                  <p className="extra-info">Kaffe og kake blir det og! 🍰☕️</p>
+                  <p className="extra-info">
+                    <span className="extra-info-icons" aria-hidden="true">
+                      <Coffee className="ui-icon" />
+                      <CakeSlice className="ui-icon" />
+                    </span>
+                    Kaffe og kake blir det og!
+                  </p>
                 </div>
               )}
 
@@ -112,9 +151,10 @@ export function ProgramCard({ concert }: ProgramCardProps) {
                     href={concert.facebookEventUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="facebook-link"
+                    className="facebook-link link-with-icon"
                   >
-                    Se arrangement på Facebook →
+                    Se arrangement på Facebook
+                    <ArrowUpRight className="ui-icon link-icon" aria-hidden="true" />
                   </a>
                 </div>
               )}

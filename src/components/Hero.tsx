@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { ArrowRight, Heart, Music2, Sparkles, Trophy, Users } from 'lucide-react'
 import './Hero.css'
 
 export default function Hero() {
@@ -16,8 +17,12 @@ export default function Hero() {
               className="hero-logo-image"
             />
           </div>
-          <div className="image-blob">🎵</div>
-          <div className="image-accent">🏆</div>
+          <div className="image-blob" aria-hidden="true">
+            <Music2 className="ui-icon image-blob-icon" />
+          </div>
+          <div className="image-accent" aria-hidden="true">
+            <Trophy className="ui-icon image-accent-icon" />
+          </div>
           <div className="decorative-dot dot-1"></div>
           <div className="decorative-dot dot-2"></div>
           <div className="decorative-dot dot-3"></div>
@@ -26,22 +31,25 @@ export default function Hero() {
 
           <div className="stats-box">
             <div className="stat-item">
-              <span className="stat-emoji">🎺</span>
+              <Users className="ui-icon stat-icon" aria-hidden="true" />
               <span className="stat-text">35+ glade medlemmer</span>
             </div>
             <div className="stat-item">
-              <span className="stat-emoji">🎵</span>
+              <Music2 className="ui-icon stat-icon" aria-hidden="true" />
               <span className="stat-text">61 år med musikk</span>
             </div>
             <div className="stat-item">
-              <span className="stat-emoji">❤️</span>
+              <Heart className="ui-icon stat-icon" aria-hidden="true" />
               <span className="stat-text">100% lidenskap</span>
             </div>
           </div>
         </div>
 
         <div className="hero-content">
-          <div className="hero-badge">✨ Velkommen til oss</div>
+          <div className="hero-badge">
+            <Sparkles className="ui-icon badge-icon" aria-hidden="true" />
+            Velkommen til oss
+          </div>
           <h1 className="hero-heading">
             Et <span className="highlight-burgundy">varmt</span> fellesskap for{' '}
             <span className="highlight-gold">brass</span>-entusiaster
@@ -52,8 +60,9 @@ export default function Hero() {
             og fellesskap i Bergen.
           </p>
           <div className="hero-buttons">
-            <Link to="/om-oss" className="button-primary">
-              Møt oss →
+            <Link to="/om-oss" className="button-primary link-with-icon">
+              Møt oss
+              <ArrowRight className="ui-icon link-icon" aria-hidden="true" />
             </Link>
             <Link to="/program" className="button-secondary">
               Se program
