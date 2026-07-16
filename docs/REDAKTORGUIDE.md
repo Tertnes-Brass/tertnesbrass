@@ -6,7 +6,7 @@ Dette er en liten Pages CMS-prøve for konserter, nyheter og medlemmer. Redaktø
 
 1. Gå til [app.pagescms.org](https://app.pagescms.org/).
 2. Logg inn med GitHub-brukeren som har tilgang til Tertnes Brass-repositoriet.
-3. Velg repositoriet og riktig gren. For testing av denne PoC-en er grenen `feature/pages-cms-professional-redesign-poc`.
+3. Velg repositoriet `Tertnes-Brass/tertnesbrass` og produksjonsgrenen `main`.
 
 Før første test må Pages CMS sin GitHub-app være installert for organisasjonen eller kontoen som eier repositoriet. Denne tilgangen må godkjennes av en repository-administrator.
 
@@ -31,8 +31,10 @@ Nye bilder lagres under `public/images/uploads/` og får nettadresse under `/ima
 Når du lagrer i Pages CMS, skrives endringen direkte til Git-repositoriet som en commit. Pages CMS er ikke en egen innholdsdatabase og har ikke et separat «publiser»-lager. Hva som skjer videre avhenger av repoets bygg- og utrullingsoppsett:
 
 - På en testgren blir endringen bare liggende på den grenen til den eventuelt flettes.
-- På produksjonsgrenen vil en eksisterende automatisk deploy normalt bygge nettsiden på nytt.
+- På `main` starter Vercel automatisk en ny produksjonsbygging. Endringen blir offentlig når byggingen er fullført.
 - `Publisert på nettsiden` bestemmer om en konsert, nyhet eller person blir tatt med i appens offentlige innhold.
+
+Kontroller alltid den aktuelle siden på [tertnesbrass.no](https://tertnesbrass.no/) etter lagring. Ta kontakt med en repository-administrator hvis endringen ikke blir synlig eller siden viser en feil.
 
 PoC-en legger ikke til en egen godkjenningsflyt eller forhåndsvisning. Avtal derfor hvem som kan lagre til produksjonsgrenen før redaktørtesting.
 

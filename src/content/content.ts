@@ -1,25 +1,25 @@
 export interface ConcertProgramItem {
   kind: 'korps' | 'verk'
   label: string
-  credit: string
+  credit?: string
 }
 
 export interface ConcertContent {
   id: string
   title: string
   date: string
-  time: string
+  time?: string
   venue: string
   address: string
   description: string
   status: 'bekreftet' | 'avholdt' | 'annonseres' | 'utkast'
   published: boolean
-  image: string
-  imageAlt: string
-  ticketPrice: string
-  childrenFree: boolean
-  facebookEventUrl: string
-  program: ConcertProgramItem[]
+  image?: string
+  imageAlt?: string
+  ticketPrice?: string
+  childrenFree?: boolean
+  facebookEventUrl?: string
+  program?: ConcertProgramItem[]
 }
 
 export interface NewsContent {

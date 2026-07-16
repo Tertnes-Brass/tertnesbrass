@@ -40,7 +40,7 @@ function getResponsiveSource(image: string): string {
   return `${image} 2x`
 }
 
-function toConcert(concert: ConcertContent): Concert {
+export function toConcert(concert: ConcertContent): Concert {
   const isPlaceholder = concert.status === 'annonseres'
 
   return {
@@ -55,17 +55,17 @@ function toConcert(concert: ConcertContent): Concert {
       ? {
           src: concert.image,
           srcSet: getResponsiveSource(concert.image),
-          alt: concert.imageAlt,
+          alt: concert.imageAlt || concert.title,
         }
       : undefined,
     description: concert.description,
-    program: concert.program.map((item) => ({
+    program: (concert.program ?? []).map((item) => ({
       type: item.kind === 'korps' ? 'band' : 'piece',
       title: item.label,
       composer: item.credit,
     })),
     ticketPrice: concert.ticketPrice || undefined,
-    childrenFree: concert.childrenFree,
+    childrenFree: concert.childrenFree ?? false,
     facebookEventUrl: concert.facebookEventUrl || undefined,
     status: isPlaceholder ? 'tba' : 'confirmed',
   }

@@ -57,7 +57,8 @@ export function ProgramCard({ concert }: ProgramCardProps) {
             <div className="tba-message">
               <p className="tba-text">Mer info kommer snart</p>
               <p className="tba-description">
-                Vi jobber med å planlegge dette arrangementet. Følg med for oppdateringer!
+                {concert.description ||
+                  'Vi jobber med å planlegge dette arrangementet. Følg med for oppdateringer!'}
               </p>
             </div>
           ) : (
