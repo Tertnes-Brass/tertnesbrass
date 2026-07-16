@@ -1,11 +1,12 @@
 {
   "id": "sommer-2026",
-  "title": "Annonseres senere",
+  "title": "Sommerkonsert",
   "date": "2026-07-01",
   "venue": "Sted kommer snart",
   "address": "Bergen",
   "description": "Sommerkonsert i sentrum for å avslutte en flott sesong!",
   "status": "annonseres",
   "published": true,
-  "childrenFree": false
+  "childrenFree": false,
+  "time": "16:00"
 }
