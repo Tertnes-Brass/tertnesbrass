@@ -192,7 +192,8 @@ if (eventName === "check_run") {
 	const isCloudflareBuild =
 		checkRun.app?.slug === "cloudflare-workers-and-pages" &&
 		checkRun.name === "Workers Builds: tertnesbrass-website";
-	const isProduction = productionBranches.has(branch);
+	const isPreview = /Preview URL:/i.test(checkRun.output?.summary ?? "");
+	const isProduction = productionBranches.has(branch) && !isPreview;
 	const conclusion = checkRun.conclusion?.toLocaleLowerCase("en-US");
 	const commit = truncate(checkRun.head_sha, 12);
 	const description = [
