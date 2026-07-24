@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { ChevronDown, X } from 'lucide-react'
 import { useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import { SunIcon, MoonIcon } from './ThemeToggleIcons'
@@ -43,11 +44,17 @@ export default function Header() {
               className="dropdown-toggle"
               onClick={() => setDropdownOpen(!dropdownOpen)}
               onBlur={() => setTimeout(() => setDropdownOpen(false), 200)}
+              aria-expanded={dropdownOpen}
+              aria-controls="more-navigation"
             >
-              Mer ▾
+              Mer
+              <ChevronDown
+                className={`ui-icon dropdown-chevron${dropdownOpen ? ' open' : ''}`}
+                aria-hidden="true"
+              />
             </button>
             {dropdownOpen && (
-              <div className="dropdown-menu">
+              <div id="more-navigation" className="dropdown-menu">
                 <Link to="/bli-medlem" className="dropdown-item">Bli medlem</Link>
                 <Link to="/stott-oss" className="dropdown-item">Støtt oss</Link>
                 <Link to="/kontakt" className="dropdown-item">Kontakt</Link>
@@ -100,7 +107,7 @@ export default function Header() {
             onClick={closeMobileMenu}
             aria-label="Lukk meny"
           >
-            ×
+            <X className="ui-icon mobile-menu-close-icon" aria-hidden="true" />
           </button>
         </div>
         <nav className="mobile-nav">

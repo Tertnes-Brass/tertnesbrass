@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { CalendarDays } from 'lucide-react';
 import { ProgramCard } from '../components/ProgramCard';
 import { concerts } from '../data/concerts';
 import './program.css';
@@ -10,7 +11,10 @@ function ProgramPage() {
     <div className="program-page">
       <div className="program-container">
         <div className="program-header">
-          <div className="program-badge">📅 Sesongprogram 2026</div>
+          <div className="program-badge">
+            <CalendarDays className="ui-icon badge-icon" aria-hidden="true" />
+            Sesongprogram 2026
+          </div>
           <h1 className="program-title">Kommende konserter</h1>
           <p className="program-description">
             Velkommen til våre konserter! Klikk på en konsert for å se detaljer om program,

@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { Heart } from 'lucide-react'
 import './Footer.css'
 
 // Social Media Icon Components
@@ -106,7 +107,9 @@ export function Footer(_props: FooterProps) {
 
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © {currentYear} Tertnes Brass. Laget med ❤️ i Bergen.
+            © {currentYear} Tertnes Brass. Laget med
+            <Heart className="ui-icon footer-heart-icon" aria-hidden="true" />
+            omtanke i Bergen.
           </p>
           <div className="footer-social">
             {socialLinks.map((social) => (

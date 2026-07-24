@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { Heart } from 'lucide-react'
 import './SponsorCTA.css'
 
 export default function SponsorCTA() {
@@ -10,7 +11,10 @@ export default function SponsorCTA() {
         <div className="decorative-blob blob-3"></div>
 
         <div className="sponsor-content">
-          <div className="sponsor-badge">❤️ Støtt kulturlivet</div>
+          <div className="sponsor-badge">
+            <Heart className="ui-icon badge-icon" aria-hidden="true" />
+            Støtt kulturlivet
+          </div>
           <h2 className="sponsor-heading">Bli en del av laget vårt</h2>
           <p className="sponsor-description">
             Som sponsor bidrar du til å holde brassmusikken levende i Bergen.

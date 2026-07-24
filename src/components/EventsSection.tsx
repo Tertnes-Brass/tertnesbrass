@@ -1,4 +1,11 @@
 import { Link } from '@tanstack/react-router';
+import {
+  ArrowRight,
+  CalendarClock,
+  CalendarDays,
+  MapPin,
+  Music2,
+} from 'lucide-react';
 import { concerts } from '../data/concerts';
 import './EventsSection.css';
 
@@ -9,7 +16,10 @@ export default function EventsSection() {
     <section className="events-section">
       <div className="events-container">
         <div className="section-header">
-          <div className="section-badge">📅 Sesongprogram</div>
+          <div className="section-badge">
+            <CalendarDays className="ui-icon badge-icon" aria-hidden="true" />
+            Sesongprogram
+          </div>
           <h2 className="section-title">Kommende konserter</h2>
         </div>
 
@@ -27,24 +37,32 @@ export default function EventsSection() {
                   loading="lazy"
                 />
               ) : (
-                <div className="event-emoji">{concert.emoji}</div>
+                <div className="event-icon" aria-hidden="true">
+                  {concert.status === 'tba' ? (
+                    <CalendarClock className="ui-icon" />
+                  ) : (
+                    <Music2 className="ui-icon" />
+                  )}
+                </div>
               )}
               <div className="event-date">{concert.date}</div>
               <h3 className="event-title">{concert.title}</h3>
               <div className="event-venue">
-                <span className="venue-icon">📍</span>
+                <MapPin className="ui-icon venue-icon" aria-hidden="true" />
                 {concert.venue}
               </div>
-              <Link to="/program" className="event-link">
-                Les mer →
+              <Link to="/program" className="event-link link-with-icon">
+                Les mer
+                <ArrowRight className="ui-icon link-icon" aria-hidden="true" />
               </Link>
             </div>
           ))}
         </div>
 
         <div className="events-footer">
-          <Link to="/program" className="view-all-link">
-            Se hele programmet →
+          <Link to="/program" className="view-all-link link-with-icon">
+            Se hele programmet
+            <ArrowRight className="ui-icon link-icon" aria-hidden="true" />
           </Link>
         </div>
       </div>
