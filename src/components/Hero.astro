@@ -1,42 +1,13 @@
 ---
 import './Hero.css'
-
-export type HeroVariant = 'instruments' | 'band'
-
-interface HeroArt {
-  imageBase: string
-  video: string
-  alt: string
-}
-
-interface Props {
-  variant?: HeroVariant
-}
-
-const HERO_ART: Record<HeroVariant, HeroArt> = {
-  instruments: {
-    imageBase: '/images/hero/instruments',
-    video: '/videos/hero-instruments.mp4',
-    alt: 'Messinginstrumenter samlet på en mørk scene foran et burgunderrødt sceneteppe: tuba, eufonium, baryton, kornett og trombone, med pauker og skarptromme bak',
-  },
-  band: {
-    imageBase: '/images/hero/band',
-    video: '/videos/hero-band.mp4',
-    alt: 'Brassband i konsertoppstilling på en mørk scene, sett bakfra med dirigenten foran korpset',
-  },
-}
-
-const { variant = 'instruments' } = Astro.props
-const art = HERO_ART[variant]
-const heroSrcSet = (extension: string): string =>
-  `${art.imageBase}-960.${extension} 960w, ${art.imageBase}-1600.${extension} 1600w, ${art.imageBase}-2560.${extension} 2560w`
 ---
 
-<section class="hero">
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-media" aria-hidden="true"></div>
+
   <div class="hero-container">
     <div class="hero-content">
-      <p class="hero-badge">Velkommen til oss</p>
-      <h1 class="hero-heading">
+      <h1 id="hero-heading" class="hero-heading">
         Et <span class="highlight-burgundy">varmt</span> fellesskap for <span
           class="highlight-gold">brass</span
         >-entusiaster
@@ -56,65 +27,5 @@ const heroSrcSet = (extension: string): string =>
       </div>
       <p class="hero-facts">Elitedivisjonen i NM Brass · Grunnlagt 1964 · Bergen</p>
     </div>
-
-    <div class="hero-arch">
-      <picture>
-        <source
-          type="image/avif"
-          srcset={heroSrcSet('avif')}
-          sizes="(max-width: 900px) 100vw, 45vw"
-        />
-        <source
-          type="image/webp"
-          srcset={heroSrcSet('webp')}
-          sizes="(max-width: 900px) 100vw, 45vw"
-        />
-        <img
-          src={`${art.imageBase}-1600.jpg`}
-          srcset={heroSrcSet('jpg')}
-          sizes="(max-width: 900px) 100vw, 45vw"
-          alt={art.alt}
-          class="hero-arch-media"
-          width="1600"
-          height="2133"
-          fetchpriority="high"
-        />
-      </picture>
-      <video
-        class="hero-arch-media hero-video"
-        data-src={art.video}
-        muted
-        loop
-        playsinline
-        preload="none"
-        aria-hidden="true"
-      ></video>
-    </div>
   </div>
 </section>
-
-<script>
-  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-  const viewportQuery = window.matchMedia('(min-width: 48rem)')
-  const videos = document.querySelectorAll<HTMLVideoElement>('.hero-video')
-
-  const updateHeroVideos = (): void => {
-    const enabled = !motionQuery.matches && viewportQuery.matches
-    videos.forEach((video) => {
-      if (enabled) {
-        if (!video.src && video.dataset.src) video.src = video.dataset.src
-        void video.play().catch(() => undefined)
-      } else {
-        video.pause()
-        video.classList.remove('is-playing')
-      }
-    })
-  }
-
-  videos.forEach((video) => {
-    video.addEventListener('playing', () => video.classList.add('is-playing'))
-  })
-  motionQuery.addEventListener('change', updateHeroVideos)
-  viewportQuery.addEventListener('change', updateHeroVideos)
-  updateHeroVideos()
-</script>
